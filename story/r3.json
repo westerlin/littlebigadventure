@@ -1,0 +1,6 @@
+{
+  "name":"Steep Cliffs",
+  "description":"As the threes thins out - red cliffs expose themselves - rising high and steep - blocking all passage to the south",
+  "neighbors":{"north":"r1"},
+  "items":{"stone quarry":"e9"}
+}

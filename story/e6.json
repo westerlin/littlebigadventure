@@ -1,0 +1,9 @@
+{
+  "base":{
+    "name":"rusty key",
+    "description":"Old rusty key without any markings.",
+    "state":[]
+  },
+  "commands":{
+  }
+}

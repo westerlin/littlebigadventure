@@ -1,0 +1,9 @@
+{
+  "base":{
+    "name":"Picklock kit",
+    "description":"Small kit consisting af slim and bended iron pins for picklocking.",
+    "state":[]
+  },
+  "commands":{
+  }
+}

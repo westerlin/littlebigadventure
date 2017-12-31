@@ -1,0 +1,9 @@
+{
+  "base":{
+    "name":"sharpening stone",
+    "description":"Rectangular stone with finely grained surface for sharpening steel.",
+    "state":[]
+  },
+  "commands":{
+  }
+}

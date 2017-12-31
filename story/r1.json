@@ -1,0 +1,6 @@
+{
+  "name":"Curvy path in the Forest",
+  "description":"Pine trees stand close here in the middle of the forest. A small path curves its way between the tree trunks in the North to Sourth direction. Birds are singing. Sun is shining.",
+  "neighbors":{"north":"r2","south":"r3"},
+  "items":{"chest":"e1","trees":"e3","axe":"e4"}
+}

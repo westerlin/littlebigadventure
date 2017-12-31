@@ -1,0 +1,6 @@
+{
+  "name":"Plain fields",
+  "description":"You reach the open fields. Thunder is in the air",
+  "neighbors":{"south":"r1"},
+  "items":{"picklock kit":"e5","rusty key":"e6"}
+}

@@ -1,0 +1,19 @@
+{
+  "base":{
+    "name":"hand axe",
+    "description":"Little handy axe for chopping wood.",
+    "state":[]
+  },
+  "commands":{
+    "sharpen":{
+      "prerequisites":[
+        {"equipped":{"is":{"sharpen stone":"e8"},"failtext":"You cannot with your bare hands"}}
+      ],
+      "responseAction":{
+          "textresponse":"You sharpen the axe.",
+          "actionpoints":-10,
+          "state":{"add":["sharpened"]}
+      }
+    }
+  }
+}

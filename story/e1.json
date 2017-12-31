@@ -1,0 +1,101 @@
+{
+  "base":{
+    "name":"old chest",
+    "description":"Old, wooden, sturdy chest.",
+    "state":["locked","closed"],
+    "container":{
+      "prerequisites":[
+          {"state":{"is":"open","target":"e1"}}
+      ],
+      "items":{"handkerchief":"e7","sharping stone":"e8"}
+    }
+  },
+  "commands":{
+    "push":{
+      "prerequisites":[
+        {"state":{"not":"moved","failtext":"The chest is already pushed aside."}}
+      ],
+      "responseAction":{
+        "textresponse":"The chest is moved aside revealing an opening below",
+        "state":{"add":["moved"],"target":"e1"},
+        "exit":{"add":{"down":"r4"},"target":"r1"},
+        "actionpoints":-30
+      }
+    },
+    "pull":{
+        "prerequisites":[
+          {"state":{"is":"moved","failtext":"The chest cannot be pulled any further."}}
+        ],
+        "responseAction":{
+          "textresponse":"The chest is back blocking the opening below",
+          "state":{"remove":["moved"]},
+          "exit":{"remove":{"down":"r4"},"target":"r1"},
+          "actionpoints":-30
+        }
+      },
+    "get":{
+      "responseAction":{
+        "textresponse":"The chest is too heavy to lift",
+        "actionpoints":-10
+      }
+    },
+    "close":{
+      "prerequisites":[
+        {"state":{"not":"locked","failtext":"The chest is locked."}},
+        {"state":{"not":"broken","failtext":"The chest is broken."}},
+        {"state":{"is":"open","failtext":"The chest is already closed."}}
+      ],
+      "responseAction":{
+        "textresponse":"the chest closes with a creaky sound .. ",
+        "state":{"add":"closed","remove":"open"}
+      }
+    },
+    "open":{
+      "prerequisites":[
+        {"state":{"not":"locked","failtext":"The chest is locked."}},
+        {"state":{"not":"broken","failtext":"The chest is broken."}},
+        {"state":{"is":"closed","failtext":"The chest is already open."}}
+      ],
+      "responseAction":{
+        "textresponse":"the chest opens with a creaky sound .. ",
+        "state":{"add":"open","remove":"closed"}
+      }
+    },
+    "break":{
+      "prerequisites":[
+        {"equipped":{"is":{"hand axe":"e4"},"failtext":"You cannot break the chest with you bare hands"}},
+        {"state":{"not":"broken","failtext":"The chest is already broken."}},
+        {"test":{"success":20,"failtext":"You hammer on to break the chest ... but no success"},"actionpoints":-50}
+      ],
+      "responseAction":{
+        "textresponse":"You hammer on the chest until the wood gives in. The chest is broken.",
+        "state":{"add":["broken","open"],"remove":["closed","locked"]},
+        "actionpoints":-50
+      }
+    },
+    "picklock":{
+      "prerequisites":[
+        {"equipped":{"is":{"picklock kit":"e5"},"failtext":"You need a picklock kit to pick the lock."}},
+        {"state":{"is":"locked","failtext":"The chest is not locked."}},
+        {"state":{"not":"broken","failtext":"The chest is already broken."}},
+        {"test":{"success":50,"failtext":"You insert the pins and turn and twitch... but no success"},"actionpoints":-20}
+      ],
+      "responseAction":{
+        "textresponse":"You insert the pins and turn and twitch. A click confirms the lock is unlocked",
+        "state":{"add":["unlocked"],"remove":["locked"],
+        "actionpoints":-10}
+      }
+    },
+    "unlock":{
+      "prerequisites":[
+        {"equipped":{"is":{"old rusty key":"e6"},"failtext":"You need a matching key."}},
+        {"state":{"not":"broken","failtext":"The chest is already broken."}},
+        {"state":{"is":"locked","failtext":"The chest is not locked."}}
+      ],
+      "responseAction":{
+        "textresponse":"You insert and turn. The lock clicks. The chest is unlocked.",
+        "state":{"add":["unlocked"],"remove":["locked"]}
+      }
+    }
+  }
+}

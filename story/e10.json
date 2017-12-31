@@ -1,0 +1,42 @@
+{
+  "base":{
+    "name":"lever",
+    "description":"2 feet tall steel lever, erected from floor.",
+    "state":["pushed"]
+  },
+  "commands":{
+    "push":{
+      "prerequisites":[
+        {"state":{"not":"pushed","failtext":"The is already pushed."}}
+      ],
+      "responseAction":{
+        "textresponse":"As you push the lever to its extreme you hear a rumbling sound",
+        "state":{"add":["pushed"],"remove":"pulled"},
+        "item":{"remove":{"door":"e11"},"target":"r3"},
+        "actionpoints":-30
+      }
+    },
+    "pull":{
+      "prerequisites":[
+        {"state":{"not":"pulled","failtext":"The lever is already pulled."}}
+      ],
+      "responseAction":{
+        "textresponse":"As you pull the lever to its extreme your hear a dump sound .. then silence.",
+        "state":{"add":["pulled"],"remove":"pushed"},
+        "item":{"add":{"door":"e11"},"target":"r3"},
+        "actionpoints":-30
+      }
+    },
+    "get":{
+      "responseAction":{
+        "textresponse":"You cannot take the lever",
+        "actionpoints":-10
+      }
+    },
+    "break":{
+      "responseAction":{
+        "textresponse":"It does not make any sense. You need the lever to be functioning."
+      }
+    }
+  }
+}

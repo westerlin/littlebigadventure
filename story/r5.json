@@ -1,0 +1,6 @@
+{
+  "name":"Stone Corridor",
+  "description":"You step into a long corridor - continuing down into the darkness",
+  "neighbors":{"north":"r3"},
+  "items":{"rusty sword":"e2"}
+}

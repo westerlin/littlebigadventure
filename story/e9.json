@@ -1,0 +1,16 @@
+{
+  "base":{
+    "name":"stone quarry",
+    "description":"Formation of fine stone and rubble.",
+    "state":[]
+  },
+  "commands":{
+    "get":{
+      "responseAction":{
+        "textresponse":"Nope. Goes many meters into the ground. Maybe I can mine some ore from it.",
+        "actionpoints":-10
+      }
+    }
+
+  }
+}

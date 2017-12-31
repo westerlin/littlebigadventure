@@ -1,0 +1,6 @@
+{
+  "name":"Secret cave",
+  "description":"Small natural cavern deep under the forest. It's dark and moist in here. The light from above slightly reveals the contours of the cave. Walls covered with roots of the pine tress above.",
+  "neighbors":{"up":"r1"},
+  "items":{"lever":"e10"}
+}

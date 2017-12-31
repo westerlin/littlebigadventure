@@ -1,0 +1,48 @@
+{
+  "base":{
+    "name":"stone door",
+    "description":"Large stone door has become visible on the southern cliff side.",
+    "state":["closed"]
+  },
+  "commands":{
+    "push":{
+      "prerequisites":[
+        {"state":{"not":"opened","failtext":"The door is already pushed open."}}
+      ],
+      "responseAction":{
+        "textresponse":"As you push the door moves ... revealing a tunnel leading into the cliff to the south",
+        "state":{"add":["opened"],"remove":"closed"},
+        "exit":{"add":{"south":"r5"},"target":"r3"},
+        "actionpoints":-30
+      }
+    },
+    "pull":{
+        "prerequisites":[
+          {"state":{"not":"closed","failtext":"The lever is already closed."}}
+        ],
+        "responseAction":{
+          "textresponse":"You pull the stone door back towards you. Closing the corridor to the south.",
+          "state":{"add":["closed"],"remove":"opened"},
+          "exit":{"remove":{"south":"e5"},"target":"r3"},
+          "actionpoints":-30
+        }
+      },
+    "open":{
+      "reference":"push"
+     },
+    "close":{
+      "reference":"pull"
+     },
+    "get":{
+      "responseAction":{
+        "textresponse":"Nope. You can't. Its heavy and somehow attached to the cliffside.",
+        "actionpoints":-10
+      }
+    },
+    "break":{
+      "responseAction":{
+        "textresponse":"You cannot."
+      }
+    }
+  }
+}

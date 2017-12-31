@@ -1,0 +1,25 @@
+{
+  "base":{
+    "name":"pine trees",
+    "description":"High slim pine trees. Green leaves flickers gently in the breeze.",
+    "state":[],
+    "plural":true
+  },
+  "commands":{
+
+    "get":{
+      "responseAction":{
+        "textresponse":"Really all of them? Even for with you would need to cut it down... and cut it out .."
+      }
+    },
+
+    "chop":{
+      "prerequisites":[
+        {"equipped":{"is":{"hand axe":"e4"},"failtext":"You cannot with your bare hands"}}
+      ],
+      "responseAction":{
+          "textresponse":"Still, you don't feel up to the task. These trees are old and beautiful. Whats the point cutting down these."
+      }
+    }
+  }
+}
