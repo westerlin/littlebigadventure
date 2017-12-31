@@ -78,13 +78,13 @@ Let's go over an example to understand how this is thought to work. Let's consid
 }
 ```
 
-Here we define an item - a rusty sword which is code _e2_ in game (see e2.json file). Per default all objects can be:
+Here we define an item - a rusty sword - which is code _e2_ in game (see e2.json file). Per default all objects can be:
 
  * _examined_: Which basically displays items description (which includes its current state and possible items it contains)
  * _taken_: Which moves the item to players inventory (however can be overridden in items own commands etc.)
 
-In this example we also define a command which is specific for the sword - namely __sharpen__
-There are som prerequisites for doing this action. The player has to be equipped (currently the engine does not distinquish between equipped and inventory) with a sharpening stone (an item in its own right defined in code _e8_). So the player writes:
+In this example we also define a command which is specific for the sword - namely __sharpen__.
+There are some prerequisites for doing this action. The player has to be equipped (currently the engine does not distinquish between equipped and inventory) with a sharpening stone (an item in its own right defined in code _e8_). So the player writes:
 
 `> What is your bidding, Sire? sharpen rusty sword`
 
@@ -97,8 +97,15 @@ If the player has the sharpening stone the engine replies:
 
 `> You sharpen that sword some  ` (textresponse)
 
- And the rusty sword changes state to _sharpened_ which can be confirmed if the sword is inspected.
+ And the rusty sword changes state to _sharpened_ which can be confirmed if the sword is inspected:
 
+`> What is your bidding, Sire? look rusty sword`
+
+And engine replies:
+```
+rusty sword
+Very old, rusty shortsword. Have seen its better days. It is sharpened.
+```
 ### Little Big command syntax ###
  The prior example points to what we would say is a complicated action (involves one action and two or more items). Normally in text adventures, there are two ways to write these.
 
