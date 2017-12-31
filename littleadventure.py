@@ -2,8 +2,8 @@ import cmd
 import textwrap
 from location import *
 from itemobject import *
-from inventory import *
-from commandobject import *
+#from inventory import *
+#from commandobject import *
 
 _AVAILABLE_COLORS = ('blue', 'green', 'yellow', 'red', 'black')
 
