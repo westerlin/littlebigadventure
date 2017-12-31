@@ -5,7 +5,7 @@ Developing a meta language for text adventures.
 >__Proposal:__<br/> Create a text adventure game  without doing any programming and focusing solely on storyline, storytelling, puzzles and progression in the adventure. <br/>
 
 
->__Ambition:__<br/> The vocabulary should be generic to fit storyline purpose although keep an overall simple style. Game elements like mining, combat like standard RPG game should be included. NPCs and interactions should be developed - looking into natural language interpretaters for this purpose. Currently the engine uses the Python Command module for user input, but we plan to build a more general API so the Engine can be implemented on web pages etc.
+>__Ambition:__<br/> The vocabulary should be generic to fit storyline purpose although keep an overall simple style. Game elements like mining, combat and standard RPG game features should be included. Open world environments. NPCs and interactions should be developed - looking into natural language interpretaters for this purpose. Currently the engine uses the Python Command module for user input, but we plan to build a more general API so the Engine can be implemented on web pages etc. In the long run this could evolve an online environment like a traditional MUD (Multi User Dungeon)
 
 >__Warning:__<br/> The game engine is completely old school text based. There are no fancy graphics (however, we are developing a module which may contribute with ASCII art for demo purposes). Sounds or music are not included either.
 
