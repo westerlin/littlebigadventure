@@ -67,7 +67,7 @@ class Game(cmd.Cmd):
         if locationId == self.loc.id:
             location = self.loc
         else:
-            location = get_location(roomId)
+            location = get_location(locationId)
         for key in newItems.keys():
             itemid = newItems.get(key)
             item = get_item(itemid)
