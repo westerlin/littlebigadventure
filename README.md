@@ -55,6 +55,7 @@ So what does this meta language looks like?
 
 Let's go over an example to understand how this is thought to work. Let's consider the following:
 
+###### Sample LBA meta language #####
 ```
 {
   "base":{
@@ -102,7 +103,7 @@ If the player has the sharpening stone the engine replies:
  The prior example points to what we would say is a complicated action (involves one action and two or more items). Normally in text adventures, there are two ways to write these.
 
 Either tool defines the intend:
-  <ul> > <b>use</b> <i>sharpening stone</i> on <i>rusty sword</strong> </i>
+  <ul> > <b>use</b> <i>sharpening stone</i> on <i>rusty sword</strong> </i></ul>
 
 or verb defines intend:
 
@@ -128,6 +129,7 @@ The structure of the files are depicted in the dependency tree below:
 
   * __littleadventure.py__ (input/output and main game manager)
     * location.py (handles locations or rooms)
+        * _lbautils.py_ (general purpose tool)
     * itemobject.py (handles item)
       * inventory.py (handles a stack of items)
         * _lbautils.py_ (general purpose tool)
@@ -136,7 +138,7 @@ The structure of the files are depicted in the dependency tree below:
 
   * __writestory.py__ (converts JSON to story.DB to be used in game engine above)
 
-Programs in __bold__ represent main programs. All other a modules to be included.
+Programs in __bold__ represent main programs. All other are modules which are included.
 
 NB! repository also include samples of JSON files which are placed in ./story subfolder
 
