@@ -109,20 +109,26 @@ Very old, rusty shortsword. Have seen its better days. It is sharpened.
 ### Little Big command syntax ###
  The prior example points to what we would say is a complicated action (involves one action and two or more items). Normally in text adventures, there are two ways to write these.
 
-Either tool defines the intend:
+Either the tool defines the intend:
   <ul> > <b>use</b> <i>sharpening stone</i> on <i>rusty sword</strong> </i></ul>
 
-or verb defines intend:
+or the verb defines the intend:
 
 <ul> > <b>sharpen</b> <i>rusty sword</i> with <i>sharpening stone</i></ul>
 
-The game engine takes the latter approach, where verb indicates what action is to be taken and on what subject. The game engine automatically runs through available tools in order to meet requirements to _sharpen_ rusty sword. Thus, in this command setting the play does not have to write the '_with..._'-part. Thereby actions requiring more than one tool (or means) can also be handled.
+The game engine takes the latter approach, where the verb indicates what action is to be taken and on what subject. The game engine automatically runs through available tools in order to meet requirements to _sharpen_ rusty sword. Thus, in this command setting the player does not have to write the '_with..._'-part. Thereby actions requiring more than one tool (or means) can also be handled.
 
 The problem with omitting the "with..."-part becomes evident when:
 
 <ul> >  <b>fill</b> <i>bottle</i></ul>
 
-Because, with what? Water, air or what ever substance, gas etc. which may fit into the bottle. Also we could consider a player who wants to brew a potion of some kind. There the central object is non-existent. Lets say we want to brew a potion of healing. In order to act the object needs to be available - so concepts are not possible yet in the game engine. We could however condition on a central part of the means which indicates what the player are brewing. Example:
+Because, with what? Water, air or what ever substance, gas etc. which may fit into the bottle. A Solution could be:
+
+<ul> >  <b>bottle</b> <i>water</i></ul>
+
+Which could be done if an item - water - was defined with the command -  (to) bottle - requiring the the item - bottle.
+
+Also we could consider a player who wants to brew a potion of some kind. There the central object is non-existent. Lets say we want to brew a potion of healing. In order to act the object needs to be available - so concepts are not possible yet in the game engine. We could however condition on a central part of the means which indicates what the player are brewing. Example:
 
 <ul> > <b>brew</b> <i>healing potion recipe</i></ul>
 
