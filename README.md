@@ -2,7 +2,7 @@
 Developing a meta language for text adventures.
 
 
->__Proposal:__<br/> By applying the little big adventure meta language and game engine an author can create a text adventure game  without doing any programming and focusing solely on storyline, storytelling, puzzles and progression in the adventure. <br/>
+>__Proposal:__<br/> Create a text adventure game  without doing any programming and focusing solely on storyline, storytelling, puzzles and progression in the adventure. <br/>
 
 
 >__Ambition:__<br/> The vocabulary should be generic to fit storyline purpose although keep an overall simple style. Game elements like mining, combat like standard RPG game should be included. NPCs and interactions should be developed - looking into natural language interpretaters for this purpose. Currently the engine uses Pythons Command module for user input, but we plan to build a more general API so this can be implemented on web pages etc.
