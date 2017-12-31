@@ -1,7 +1,14 @@
 # Little big adventure language
 Developing a meta language for text adventures.
 
-By applying meta language an author can create a text adventure which can be played in the Little Big adventure game engine.
+
+>__Proposal:__<br/> By applying the little big adventure meta language and game engine an author can create a text adventure game  without doing any programming and focusing solely on storyline, storytelling, puzzles and progression in the adventure. <br/>
+
+
+>__Ambition:__<br/> The vocabulary should be generic to fit storyline purpose although keep an overall simple style. Game elements like mining, combat like standard RPG game should be included. NPCs and interactions should be developed - looking into natural language interpretaters for this purpose. Currently the engine uses Pythons Command module for user input, but we plan to build a more general API so this can be implemented on web pages etc.
+
+>__Warning:__<br/> The game engine is completely old school text based. There are no fancy graphics (however, we are look into an ASCII art module which may contribute).
+
 
 ### Prerequisites ###
 
@@ -9,7 +16,8 @@ The current implementation is compliant to Python 3.6
 
 dependent modules:
 
-os, sys, sqlite3, cmd, textwrap, json
+<ul> os, sys, sqlite3, cmd, textwrap, json </ul>
+
 
 ### Quick start ###
 
@@ -21,27 +29,31 @@ This basically copies JSON files (meta language) to game database. If successful
 
   `> python3.6 littleadventure.py`
 
-The demo consists for five rooms (two hidden) and 11 items. See if you can find the rusty sword and sharpen it.
+The demo consists for five locations (two hidden) and 11 items. See if you can find the rusty sword and sharpen it.
 
-### Explaination ###
-Currenly based on JSON where objects like rooms and items can be defined.
+### What is the Little Big Adventure meta language? ###
+Currently, it is based on JSON where game objects like locations and items can be defined.
 
- * Rooms have exits associated to other rooms. Commands like "walk", "go" are associated to the exits which are labeled directly in the room description file.
-  Rooms can hold items.
+ * __Locations__ have exits associated to other rooms. Commands like "walk", "go" are associated to the exits which are labeled directly in the room description file.
+  Locations can hold items and are thus a container.
 
- * Items have states and a command library which complements basic commands ("take","look" etc.). The commands have prerequisites and actionresponses.
-    * Prerequisites checks if specific game states are fulfilled in order to carry out the action. If prerequisites are not met then the action cannot be filfulled. Each prerequisite has a failtext to inform the play of why the action could not be completed
+ * __Items__ can normally be taken and carried by player to other locations. Like locations, some items are also containers and can hold other items (we even plan to make items have exits associated directly to them). Moreover, items have states and an associated command library which complements basic commands ("take","look" etc.). The commands have prerequisites and action responses.
+    * Prerequisites checks if specific game conditions are fulfilled in order to carry out the action. If prerequisites are not met, then the action cannot be fulfilled. Each prerequisite has a __failtext__ to inform the player of why the action could not be completed. Examples of prerequisites are:
       * Item state requirements
       * Item in inventory requirements
       * Tests of randomness
-    * Action responses makes changes to the game:
+    * Action responses makes changes to the game. They provide feedback in case all prerequisites are met and changes the current state of game by expanding or reducing the options available to player. Examples of action responses are:
       * Create/destroy room exits
-      * Create/destroy items in rooms/ inventory
+      * Create/destroy items in rooms/ inventory/ items (which are containers)
       * Change item states
+
+Currently the meta language is formed in JSON but YAML is considered as this also leaves room for commenting which would be nice for an author.
 
 #### Very Basic example ####
 
-Let's go over an example how this is thought to work. Lets consider the following:
+So what does this meta language looks like?
+
+Let's go over an example to understand how this is thought to work. Let's consider the following:
 
 ```
 {
@@ -65,17 +77,17 @@ Let's go over an example how this is thought to work. Lets consider the followin
 }
 ```
 
-Here we define an item - a rusty sword which is code _e2_ in game. Per default all objects can be:
+Here we define an item - a rusty sword which is code _e2_ in game (see e2.json file). Per default all objects can be:
 
- * examined: Which basically displays items description (and possible items it contains if visible)
- * taken: which moves item to players inventory (maybe at some point depending on room etc.)
+ * _examined_: Which basically displays items description (which includes its current state and possible items it contains)
+ * _taken_: which moves item to players inventory (maybe at some point depending on room etc.)
 
 In this example we also define a command specific for the sword - namely __sharpen__
 There are som prerequisites for doing this action. The player has to be equipped (currently the engine does not distinquish between equipped and inventory) with a sharpening stone (an item in its own right defined in code _e8_). So the play er writes:
 
 `What is your bidding, Sire? sharpen rusty sword  `
 
-If the does not have the sharpening stone then engine replies:
+If the player does not have the sharpening stone then the engine replies:
 
 `You cannot with your bare hands  `
 
@@ -87,23 +99,24 @@ If the player has the sharpening stone the engine replies:
  And the rusty sword changes state to _sharpened_ which can be confirmed if the sword is inspected.
 
 ### Little Big command syntax ###
- The prior example points to what we would say is a complicated action (involves one action and two items). Normally in text adventures there are two ways to write these. Either you write:
+ The prior example points to what we would say is a complicated action (involves one action and two or more items). Normally in text adventures, there are two ways to write these.
 
- _use_ __sharpening stone__ on __rusty sword__
+Either tool defines the intend:
+  <ul>\> _use_ __sharpening stone__ on __rusty sword__ </ul>
 
-or
+or verb defines intend:
 
-_sharpen_ __rusty sword__ with __sharpening stone__
+<ul>\> _sharpen_ __rusty sword__ with __sharpening stone__</ul>
 
 The game engine takes the latter approach, where verb indicates what action is to be taken and on what subject. The game engine automatically runs through available tools in order to meet requirements to _sharpen_ rusty sword. Thus, in this command setting the play does not have to write the '_with..._'-part. Thereby actions requiring more than one tool (or means) can also be handled.
 
 The problem with omitting the "with..."-part becomes evident when:
 
-  _fill_ bottle
+<ul>\>  _fill_ __bottle__</ul>
 
-Because with what? Water, air or what ever substance, gas etc. which may fit into the bottle. Also we could consider a player who wants to brew a potion of some kind. There the central object is non-existent. Lets say we want to brew a potion of healing. In order to act the object needs to be available - so concepts are not possible yet in the game engine. We could however condition on a central part of the means which indicates what the player are brewing. Example:
+Because, with what? Water, air or what ever substance, gas etc. which may fit into the bottle. Also we could consider a player who wants to brew a potion of some kind. There the central object is non-existent. Lets say we want to brew a potion of healing. In order to act the object needs to be available - so concepts are not possible yet in the game engine. We could however condition on a central part of the means which indicates what the player are brewing. Example:
 
-_brew_ healing potion recipe
+<ul>\> _brew_ __healing potion recipe__</ul>
 
 And then game engine will check that the ingredients: bowl, spider web, herps etc. are available.
 
@@ -117,7 +130,9 @@ The structure of the files are depicted in the dependency tree below:
     * location.py (handles locations or rooms)
     * itemobject.py (handles item)
       * inventory.py (handles a stack of items)
+        * _lbautils.py_ (general purpose tool)
       * commandobject.py (handles prerequisites and actionresponses)
+        * _lbautils.py_ (general purpose tool)
 
   * __writestory.py__ (converts JSON to story.DB to be used in game engine above)
 

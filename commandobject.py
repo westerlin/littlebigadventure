@@ -1,9 +1,13 @@
+"""
+ Little Big Adventure Meta Language Demo
 
-def safeInit(element,default):
-    if element is None:
-        return default
-    return element
+ Very simple game engine to interpretate the LBAML
+ By Rasmus Westerlin, Apps'n Downs, December 2017
 
+ CommandObject with ResponseAction and Prereuisite modules
+"""
+
+from lbautils import *
 
 class CommandObject():
 

@@ -1,49 +1,16 @@
+"""
+ Little Big Adventure Meta Language Demo
+
+ Very simple game engine to interpretate the LBAML
+ By Rasmus Westerlin, Apps'n Downs, December 2017
+
+ Primitive user interface + game controls
+"""
 import cmd
-import textwrap
 from location import *
 from itemobject import *
 #from inventory import *
 #from commandobject import *
-
-_AVAILABLE_COLORS = ('blue', 'green', 'yellow', 'red', 'black')
-
-"""
- Log to do
-  - kunne restarte spil (kopi af base)
-  - gemme spillers status (c00 record med JSON)
-  - smarter object naming matching
-  - program to check integrity of JSON files (OK)
-     should build an overview of references (OK - almost)
-     puts JSON to DB for use (OK)
-  - saving feature
-     establish data base (OK)
-     loading from data (OK)
-     location and item object should save back (OK)
-  - implementing of test actionResponse
-  - new directions added on actionresponses (OK)
-  - moving to new locations on actionsresponses
-  - consider if environment should be kept with room
-  - actionResponse death
-  - actionResponse teleport
-  - actionResponse win
-  - prerequisites equipped item states (need a sharp axe)
-  - equip (two hands, worn, helmet, glasses)
-  - inventories in item objects (OK)
-  - time pauses between commands
-  - status view of character
-  - consider if naming is the right way or we should use volume numbers
-"""
-
-
-def cls():
-    from subprocess import call
-    from platform import system
-    os = system()
-    if os == 'Linux' or os == 'Darwin':
-        call('clear', shell = True)
-    elif os == 'Windows':
-        call('cls', shell = True)
-
 
 class Game(cmd.Cmd):
 
@@ -51,22 +18,15 @@ class Game(cmd.Cmd):
         cmd.Cmd.__init__(self)
         cmd.Cmd.prompt = "What is your bidding, Sire? "
         self.inventory = Inventory()
-        self.gotoRoom("r1")
+        self.gotoLocation("r1")
         self.actionpoints = 500
         #self.focus = self.environment.get("old chest")
         #print (item[0].special.get("container"))
         #print (item[0].special.get("container").output())
 
-    def gotoRoom(self,roomID):
-        self.loc = get_room(roomID)
-        self.environment = Inventory()
-        self.environment.populate(self.loc.items)
+    def gotoLocation(self,locationID):
+        self.loc = get_location(locationID)
         self.look()
-
-
-    def complete_color(self, text, line, begidx, endidx):
-        return [i for i in _AVAILABLE_COLORS if i.startswith(text)]
-
 
     def do_inventory(self,arg):
         """ list all inventory items """
@@ -78,93 +38,77 @@ class Game(cmd.Cmd):
         print("Thank you for playing")
         return True
 
+    def do_exit(self,args):
+        """Leaves the game"""
+        print("Thank you for playing")
+        return True
+
+
     def move(self,dir):
-        newroom = self.loc.neighbor(dir)
-        if newroom is None:
+        newlocation = self.loc.neighbor(dir)
+        if newlocation is None:
             print("Sorry, you cannot go that way")
         else:
             #self.loc = get_room(newroom)
             self.updateall()
-            self.gotoRoom(newroom)
+            self.gotoLocation(newlocation)
             self.look()
 
     def updateall(self):
-        self.environment.update()
-        subenvs = self.environment.getsubcontainers(self)
-        for subenv in subenvs:
-            subenv.update()
         self.inventory.update()
-        self.loc.update(self.environment)
+        self.loc.update()
 
     def look(self):
         cls()
-        print(self.loc.name+"\n")
-        for lines in textwrap.wrap(self.loc.description,72,replace_whitespace=False):
-            print(lines)
-        print()
-        for lines in textwrap.wrap("you can see: %s" %self.environment,72,replace_whitespace=False):
-            print(lines)
-        print()
+        print(self.loc)
         #print(self.environment.get(self,"old chest")[0].items.count())
 
-
-
-    def addItem(self,roomId,newItems):
-        if roomId == self.loc.id:
-            room = self.loc
-            inventory = self.environment
+    def addItem(self,locationId,newItems):
+        if locationId == self.loc.id:
+            location = self.loc
         else:
-            room = get_room(roomId)
-            inventory = Inventory()
-            inventory.populate(room.items)
+            location = get_room(roomId)
         for key in newItems.keys():
             itemid = newItems.get(key)
             item = get_item(itemid)
-            inventory.add(item)
-        room.update(inventory)
+            location.addItem(item)
+        location.update()
 
-    def removeItem(self,roomId,newItems):
-        if roomId == self.loc.id:
-            room = self.loc
-            inventory = self.environment
+    def removeItem(self,locationId,newItems):
+        if locationId == self.loc.id:
+            location = self.loc
         else:
-            room = get_room(roomId)
-            inventory = Inventory()
-            inventory.populate(room.items)
+            location = get_location(locationId)
         for key in newItems.keys():
             itemid = newItems.get(key)
             item = get_item(itemid)
-            inventory.remove(item)
-        room.update(inventory)
+            location.removeItem(item)
+        location.update()
 
-    def addExit(self,roomId,newExits):
-        if roomId == self.loc.id:
-            room = self.loc
-            inventory = self.environment
+    def addExit(self,locationId,newExits):
+        if locationId == self.loc.id:
+            location = self.loc
         else:
-            room = get_room(roomId)
-            inventory = Inventory()
-            inventory.populate(room.items)
+            location = get_location(locationId)
         for key in newExits.keys():
-            room.neighbors[key] = newExits.get(key)
-        room.update(inventory)
+            location.neighbors[key] = newExits.get(key)
+        location.update()
 
-    def removeExit(self,roomId,newExits):
-        if roomId == self.loc.id:
-            room = self.loc
-            inventory = self.environment
+    def removeExit(self,locationId,newExits):
+        if locationId == self.loc.id:
+            location = self.loc
         else:
-            room = get_room(roomId)
-            inventory = Inventory()
-            inventory.populate(room.items)
+            location = get_room(locationId)
         for key in newExits.keys():
-            room.neighbors.pop(key,None)
-        room.update(inventory)
+            location.neighbors.pop(key,None)
+        location.update()
 
     def respond(self,responsetext):
         #for lines in textwrap.wrap(responsetext,72,replace_whitespace=False):
         #    print(lines)
-        wrapper(responsetext,indent=5,width=60)
+        lines = wrapper(responsetext,indent=5,width=60)
+        for line in lines:
+            print(line)
 
     def isEquipped(self,itemref):
         for key in itemref.keys():
@@ -179,7 +123,7 @@ class Game(cmd.Cmd):
         if len(args)==0:
             self.look()
         else:
-            item = self.getUniqueItem(args,[self.environment,self.inventory])
+            item = self.getUniqueItem(args,[self.loc.environment,self.inventory])
             if item is not None:
                 self.respond("The {}:\n{}".format(item.noun,item.getdescription(self)))
         return False
@@ -236,7 +180,7 @@ class Game(cmd.Cmd):
 
 
     def genericDo(self,cmd,args,defaultAction=False,inventory=[]):
-        if len(inventory) == 0: inventory = [self.environment]
+        if len(inventory) == 0: inventory = [self.loc.environment]
         item = self.getUniqueItem(args,inventory)
         if item is None:
             return None
@@ -262,10 +206,7 @@ class Game(cmd.Cmd):
             #item is found but not handled
             #default actions
             self.inventory.add(item)
-            self.environment.remove(item)
-            subs = self.environment.getsubcontainers(self)
-            for sub in subs:
-                sub.remove(item)
+            self.loc.removeItem(item,True)
             self.respond("You took the {}".format(item.noun))
 
     def do_take(self,args):
@@ -317,7 +258,7 @@ class Game(cmd.Cmd):
             #item is found but not handled
             #default actions
             self.inventory.remove(item)
-            self.environment.add(item)
+            self.loc.addItem(item)
             self.respond("You dropped the {}".format(item.noun))
 
 if __name__ == "__main__":

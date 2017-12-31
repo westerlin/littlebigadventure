@@ -1,3 +1,11 @@
+"""
+ Little Big Adventure Meta Language Demo
+
+ Very simple game engine to interpretate the LBAML
+ By Rasmus Westerlin, Apps'n Downs, December 2017
+
+ ItemObject hold info on objects and some of the game mechanics 
+"""
 import json,sqlite3,sys
 from inventory import *
 from commandobject import *

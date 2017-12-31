@@ -1,29 +1,14 @@
-def wrapper(text, indent=2, width=72):
-    lines = text.split("\n")
-    for line in lines:
-        words = line.split(" ")
-        wrapped=""
-        for word in words:
-            if len(wrapped)+len(word)+1< width:
-                wrapped += word+" "
-            else:
-                print(" "*indent + wrapped)
-                wrapped = word+" "
-        print(" "*indent + wrapped)
 
-def doCommaSentence (somelist):
-    output = ""
-    for item in somelist:
-            output += item
-            output += sepSign(item,somelist)
-    return output
+"""
+ Little Big Adventure Meta Language Demo
 
-def sepSign(item, items,lastword="and"):
-    if len(items)>1:
-        if item == items[-2]: return " "+lastword+" "
-    if len(items)>0:
-        if item == items[-1]:return "."
-    return ", "
+ Very simple game engine to interpretate the LBAML
+ By Rasmus Westerlin, Apps'n Downs, December 2017
+
+ Inventory is used as container for ItemObjects
+ NB! inventory for player and for locations
+"""
+from lbautils import *
 
 class inventoryrecord:
     def __init__(self,item,count=1):

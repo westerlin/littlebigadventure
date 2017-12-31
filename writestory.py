@@ -1,3 +1,12 @@
+"""
+ Little Big Adventure Meta Language Story Writer
+
+ Translates JSON files to sqlite3 DB to be used in game engine
+ By Rasmus Westerlin, Apps'n Downs, December 2017
+
+ Primitive user interface + game controls
+"""
+
 import sys,sqlite3,os,os.path
 
 import json
