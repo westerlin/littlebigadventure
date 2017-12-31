@@ -7,7 +7,7 @@ Developing a meta language for text adventures.
 
 >__Ambition:__<br/> The vocabulary should be generic to fit storyline purpose although keep an overall simple style. Game elements like mining, combat like standard RPG game should be included. NPCs and interactions should be developed - looking into natural language interpretaters for this purpose. Currently the engine uses Pythons Command module for user input, but we plan to build a more general API so this can be implemented on web pages etc.
 
->__Warning:__<br/> The game engine is completely old school text based. There are no fancy graphics (however, we are look into an ASCII art module which may contribute).
+>__Warning:__<br/> The game engine is completely old school text based. There are no fancy graphics (however, we are developing a module which may contribute with ASCII art for demo purposes).
 
 
 ### Prerequisites ###
@@ -80,21 +80,21 @@ Let's go over an example to understand how this is thought to work. Let's consid
 Here we define an item - a rusty sword which is code _e2_ in game (see e2.json file). Per default all objects can be:
 
  * _examined_: Which basically displays items description (which includes its current state and possible items it contains)
- * _taken_: which moves item to players inventory (maybe at some point depending on room etc.)
+ * _taken_: Which moves the item to players inventory (however can be overridden in items own commands etc.)
 
-In this example we also define a command specific for the sword - namely __sharpen__
-There are som prerequisites for doing this action. The player has to be equipped (currently the engine does not distinquish between equipped and inventory) with a sharpening stone (an item in its own right defined in code _e8_). So the play er writes:
+In this example we also define a command which is specific for the sword - namely __sharpen__
+There are som prerequisites for doing this action. The player has to be equipped (currently the engine does not distinquish between equipped and inventory) with a sharpening stone (an item in its own right defined in code _e8_). So the player writes:
 
-`What is your bidding, Sire? sharpen rusty sword  `
+`> What is your bidding, Sire? sharpen rusty sword`
 
 If the player does not have the sharpening stone then the engine replies:
 
-`You cannot with your bare hands  `
+` > You cannot with your bare hands  ` (failtext)
 
 Which is defined in the failtext for the associated prerequisite.
 If the player has the sharpening stone the engine replies:
 
-`You sharpen that sword some  `
+`> You sharpen that sword some  ` (textresponse)
 
  And the rusty sword changes state to _sharpened_ which can be confirmed if the sword is inspected.
 
@@ -102,21 +102,21 @@ If the player has the sharpening stone the engine replies:
  The prior example points to what we would say is a complicated action (involves one action and two or more items). Normally in text adventures, there are two ways to write these.
 
 Either tool defines the intend:
-  <ul>\> _use_ __sharpening stone__ on __rusty sword__ </ul>
+  <ul> > _use_ __sharpening stone__ on __rusty sword__ </ul>
 
 or verb defines intend:
 
-<ul>\> _sharpen_ __rusty sword__ with __sharpening stone__</ul>
+<ul> > _sharpen_ __rusty sword__ with __sharpening stone__</ul>
 
 The game engine takes the latter approach, where verb indicates what action is to be taken and on what subject. The game engine automatically runs through available tools in order to meet requirements to _sharpen_ rusty sword. Thus, in this command setting the play does not have to write the '_with..._'-part. Thereby actions requiring more than one tool (or means) can also be handled.
 
 The problem with omitting the "with..."-part becomes evident when:
 
-<ul>\>  _fill_ __bottle__</ul>
+<ul> >  _fill_ __bottle__</ul>
 
 Because, with what? Water, air or what ever substance, gas etc. which may fit into the bottle. Also we could consider a player who wants to brew a potion of some kind. There the central object is non-existent. Lets say we want to brew a potion of healing. In order to act the object needs to be available - so concepts are not possible yet in the game engine. We could however condition on a central part of the means which indicates what the player are brewing. Example:
 
-<ul>\> _brew_ __healing potion recipe__</ul>
+<ul> > _brew_ __healing potion recipe__</ul>
 
 And then game engine will check that the ingredients: bowl, spider web, herps etc. are available.
 
@@ -144,8 +144,7 @@ NB! repository also include samples of JSON files which are placed in ./story su
 ### Current issues and ideas for development ###
 
   - [ ] Restart game (make copy of story.db)
-  - [ ] Save player status (c00 record)
- - [ ] Smarter item naming matching (old chest = chest)
+  - [ ] Smarter item naming matching (old chest = chest) - Maybe aliases
   - [x] program to check integrity of JSON files
   - [x] should build an overview of references (OK - almost)
   - [x] puts JSON to DB for use (OK)
@@ -153,10 +152,11 @@ NB! repository also include samples of JSON files which are placed in ./story su
    - [x] establish data base (OK)
    - [x] loading from data (OK)
    - [x] location and item object should save back (OK)
+   - [ ] Save player status (c00 record)
   - [ ] implementing of test (randomness) actionResponse
   - [x] new directions added on actionresponses (OK)
   - [ ] moving to new locations on actionsresponses
-  - [ ] consider if environment should be kept with room
+  - [x] Environment now a part of Location class (OK)
   - [ ] actionResponse death
   - [ ] actionResponse teleport
   - [ ] actionResponse win
