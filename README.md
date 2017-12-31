@@ -102,21 +102,21 @@ If the player has the sharpening stone the engine replies:
  The prior example points to what we would say is a complicated action (involves one action and two or more items). Normally in text adventures, there are two ways to write these.
 
 Either tool defines the intend:
-  <ul> \> _use_ __sharpening stone__ on __rusty sword__ </ul>
+  <ul> > <b>use</b> <i>sharpening stone</i> on <i>rusty sword</strong> </i>
 
 or verb defines intend:
 
-<ul> \> _sharpen_ __rusty sword__ with __sharpening stone__</ul>
+<ul> > <b>sharpen</b> <i>rusty sword</i> with <i>sharpening stone</i></ul>
 
 The game engine takes the latter approach, where verb indicates what action is to be taken and on what subject. The game engine automatically runs through available tools in order to meet requirements to _sharpen_ rusty sword. Thus, in this command setting the play does not have to write the '_with..._'-part. Thereby actions requiring more than one tool (or means) can also be handled.
 
 The problem with omitting the "with..."-part becomes evident when:
 
-<ul> \>  _fill_ __bottle__</ul>
+<ul> >  <b>fill</b> <i>bottle</i></ul>
 
 Because, with what? Water, air or what ever substance, gas etc. which may fit into the bottle. Also we could consider a player who wants to brew a potion of some kind. There the central object is non-existent. Lets say we want to brew a potion of healing. In order to act the object needs to be available - so concepts are not possible yet in the game engine. We could however condition on a central part of the means which indicates what the player are brewing. Example:
 
-<ul> \> _brew_ __healing potion recipe__</ul>
+<ul> > <b>brew</b> <i>healing potion recipe</i></ul>
 
 And then game engine will check that the ingredients: bowl, spider web, herps etc. are available.
 
