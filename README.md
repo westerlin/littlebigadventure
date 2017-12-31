@@ -126,9 +126,9 @@ Because, with what? Water, air or what ever substance, gas etc. which may fit in
 
 <ul> >  <b>bottle</b> <i>water</i></ul>
 
-Which could be done if an item - water - was defined with the command -  (to) bottle - requiring the the item - bottle.
+Which could be done if an item - water - was defined with the command -  (to) bottle - requiring the item - bottle, specified in prerequisites.
 
-Also we could consider a player who wants to brew a potion of some kind. There the central object is non-existent. Lets say we want to brew a potion of healing. In order to act the object needs to be available - so concepts are not possible yet in the game engine. We could however condition on a central part of the means which indicates what the player are brewing. Example:
+Also we could consider a player who wants to brew a potion of some kind. Then the subject is non-existent. Let's say we want to brew a potion of healing. In order to do the action, the object needs to be available. Concepts are not possible yet in the game engine. We could however refer to the main specification of the concept - namely the blueprint, recipe or whatever. Example:
 
 <ul> > <b>brew</b> <i>healing potion recipe</i></ul>
 
