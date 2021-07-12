@@ -13,6 +13,7 @@ def safeInit(element,default):
     return element
 
 def cls():
+    return
     from subprocess import call
     from platform import system
     os = system()
